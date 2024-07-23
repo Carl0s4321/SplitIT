@@ -2,7 +2,6 @@ import react, { useEffect, useState } from "react";
 import { StyledContainer, MsgBox } from "../components/styles";
 import { auth, db } from './../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signOut } from "firebase/auth";
 
 const Home = ({navigation}) => {
@@ -16,7 +15,6 @@ const Home = ({navigation}) => {
     const handleLogout = async () => {
       try {
         await signOut(auth);
-        await AsyncStorage.setItem('isLoggedIn', 'false');
         navigation.navigate('Login');
       } catch (error) {
         console.error('Error signing out: ', error);

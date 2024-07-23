@@ -6,7 +6,6 @@ import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseConfig';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 // icons
@@ -24,7 +23,6 @@ const Login = ({navigation}) =>{
     const handleLogin = async () => {
         try{
             await signInWithEmailAndPassword(auth, email, password);
-            AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
             navigation.navigate('Home');
         }catch(error){
             setError(error.message);
