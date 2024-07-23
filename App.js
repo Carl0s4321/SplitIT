@@ -3,11 +3,17 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import Home from './screens/Home';
 
-import { useEffect, useState, ActivityIndicator, View} from 'react';
+import { useEffect, useState} from 'react';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from '@react-navigation/stack';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebaseConfig';
+import { LoadingContainer, MsgBox, Colors } from './components/styles';
+
+
+// Colors
+const  {primary} = Colors;
 
 const Stack = createStackNavigator();
 
@@ -27,7 +33,14 @@ export default function App() {
     });
   }, []);
 
-  if (loading) return null; // Render loading/splash screen etc
+  if (loading){
+    return(
+      <LoadingContainer>
+        <ActivityIndicator size="large" color={primary} />
+        <MsgBox>Loading...</MsgBox>
+      </LoadingContainer>
+    );
+  } // render loading/splash screen etc
 
   return (
     <NavigationContainer>
