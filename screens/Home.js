@@ -7,15 +7,10 @@ import { signOut } from "firebase/auth";
 const Home = ({navigation}) => {
     const [name, setName] = useState('');
 
-    // // useEffect so we can manipulate the DOM
-    // useEffect(() => {
-        
-    //   }, []); // empty dependency array means this effect runs once after initial render
-
     const handleLogout = async () => {
       try {
         await signOut(auth);
-        navigation.navigate('Login');
+        navigation.navigate('Auth', {Screen: 'Login'});
       } catch (error) {
         console.error('Error signing out: ', error);
       }

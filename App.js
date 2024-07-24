@@ -12,10 +12,22 @@ import { auth } from './firebaseConfig';
 import { LoadingContainer, MsgBox, Colors } from './components/styles';
 
 
+import BottomNav from './components/BottomNav';
+
 // Colors
 const  {primary} = Colors;
 
 const Stack = createStackNavigator();
+
+
+function AuthStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -44,10 +56,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={authenticated ? 'Home' : 'Login'}>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}  />
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+      <Stack.Navigator>
+        {authenticated ? (
+          <Stack.Screen name="Main" component={BottomNav} options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
