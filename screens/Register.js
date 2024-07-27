@@ -20,6 +20,7 @@ const  {primary,lightgrey, grey} = Colors;
 const Register = ({navigation}) =>{
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [avatar, setAvatar] = useState(null);
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
     const [error, setError] = useState('');
@@ -33,7 +34,8 @@ const Register = ({navigation}) =>{
             // save to Firestore
             await setDoc(doc(db, "users", user.uid), {
               name: name,
-              email: email
+              email: email,
+              avatar: avatar
             });
 
             navigation.navigate('Login');
@@ -48,9 +50,7 @@ const Register = ({navigation}) =>{
                 <StatusBar style="dark"/>
                 <AntDesign name="arrowleft" size={30} color={primary} onPress={() => navigation.navigate('Login')}/>
                 <InnerContainer>
-                    <AvatarViewer>
-                        <Ionicons name="add-circle" size={175} color="grey" />
-                    </AvatarViewer>
+                    <AvatarViewer avatar={avatar} setAvatar={setAvatar} />
                     <SubTitle>Create your Account</SubTitle>
                         {error ? <Text style={{ color: 'red', marginBottom: 20, textAlign: 'center'}}>{error}</Text> : null}
                     <StyledFormArea>
