@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity} from "react-native";
+import { Text, View, TouchableOpacity, Touchable} from "react-native";
 import { StyledContainer, InnerContainer, PageLogo, PageTitle, SubTitle, StyledFormArea, LeftIcon, StyledInputLabel, StyledTextInput, RightIcon, 
     Colors, StyledButton, ButtonText, MsgBox, TextLink, SmallButton} from "../components/styles";
 import { StatusBar } from 'expo-status-bar';
@@ -7,6 +7,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from '../firebaseConfig';
 import { doc, setDoc, } from 'firebase/firestore';
+import AvatarViewer from '../components/AvatarViewer';
+import MyTextInput from '../components/MyTextInput';
 
 
 // icons
@@ -46,7 +48,9 @@ const Register = ({navigation}) =>{
                 <StatusBar style="dark"/>
                 <AntDesign name="arrowleft" size={30} color={primary} onPress={() => navigation.navigate('Login')}/>
                 <InnerContainer>
-                    <PageLogo resizeMode='cover' source={require('./../assets/icon.png')}/>
+                    <AvatarViewer>
+                        <Ionicons name="add-circle" size={175} color="grey" />
+                    </AvatarViewer>
                     <SubTitle>Create your Account</SubTitle>
                         {error ? <Text style={{ color: 'red', marginBottom: 20, textAlign: 'center'}}>{error}</Text> : null}
                     <StyledFormArea>
@@ -84,7 +88,7 @@ const Register = ({navigation}) =>{
                             <ButtonText>Sign up</ButtonText>
                         </StyledButton>
                         {/* <Line/> */}
-                        <MsgBox style={{margin: 15}}>- Or sign up with -</MsgBox>
+                        {/* <MsgBox style={{margin: 15}}>- Or sign up with -</MsgBox>
 
                         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <SmallButton>
@@ -96,7 +100,7 @@ const Register = ({navigation}) =>{
                             <SmallButton>
                                 <AntDesign name="twitter" size={30} color={primary} />
                             </SmallButton>
-                        </View>
+                        </View> */}
                     </StyledFormArea>
 
                         
@@ -105,23 +109,5 @@ const Register = ({navigation}) =>{
         </KeyboardAwareScrollView>
     );
 }
-  
-
-const MyTextInput = ({label, icon, hidePassword, setHidePassword, isPassword, ...props}) => {
-    return(
-        <View>
-            <LeftIcon>
-                <Octicons name={icon} size={30} color={primary}/>
-            </LeftIcon>
-            {/* <StyledInputLabel>{label}</StyledInputLabel> */}
-            <StyledTextInput {...props}/>
-            {isPassword &&  (
-                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                    <Ionicons name={hidePassword ? 'eye' : 'eye-off'} size={30} color={primary}/>
-                </RightIcon>
-            )}
-        </View>
-    );
-};
 
 export default Register;

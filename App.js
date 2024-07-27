@@ -8,9 +8,9 @@ import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from '@react-navigation/stack';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+import { auth, db} from './firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 import { LoadingContainer, MsgBox, Colors } from './components/styles';
-
 
 import BottomNav from './components/BottomNav';
 
@@ -32,15 +32,20 @@ function AuthStack() {
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    return auth.onAuthStateChanged((user) => {
+    return auth.onAuthStateChanged(async (user) => {
       if (user) {
-        setAuthenticated(true);
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          setAuthenticated(true);
+        }
       } else {
         setAuthenticated(false);
       }
- 
       setLoading(false);
     });
   }, []);
@@ -58,7 +63,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {authenticated ? (
-          <Stack.Screen name="Main" component={BottomNav} options={{ headerShown: false }} />
+          <Stack.Screen name="Main" component={BottomNav}  initialParams={userData} options={{ headerShown: false }} />
         ) : (
           <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
         )}

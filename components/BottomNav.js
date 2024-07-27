@@ -14,13 +14,15 @@ const  {primary} = Colors;
 
 const Tab = createBottomTabNavigator();
 
-const BottomNav= () => {
+const BottomNav= ({route}) => {
+    const userData = route.params;
     return(
         <Tab.Navigator 
         screenOptions={{
             tabBarShowLabel: false,
         }}>
-            <Tab.Screen name="Home" component={HomeScreen} options={{ 
+            <Tab.Screen name="Home" component={HomeScreen} 
+                options={{ 
                 headerShown: false,
                 tabBarIcon: ({focused}) => (
                     <FontAwesome name="home" size={30} color={focused ? primary: 'grey'}/>
@@ -31,7 +33,7 @@ const BottomNav= () => {
                     <AntDesign name="scan1" size={30} color={focused ? primary: 'grey'}/>
                 )
             }}/>
-            <Tab.Screen name="Profile" component={ProfileScreen} options={{
+            <Tab.Screen name="Profile" component={ProfileScreen}  initialParams={userData} options={{
                 tabBarIcon: ({focused}) =>(
                     <FontAwesome name="user-circle" size={30} color={focused ? primary: 'grey'}/>
                 )

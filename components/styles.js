@@ -79,7 +79,7 @@ export const StyledInputLabel = styled.Text`
 
 export const LeftIcon = styled.View`
     left: 15px;
-    top: 18px;
+    top: 35px;
     position: absolute;
     z-index: 1;
 `;
@@ -87,7 +87,7 @@ export const LeftIcon = styled.View`
 // for the eye icon
 export const RightIcon = styled.TouchableOpacity`
     right: 15px;
-    top: 18px;
+    top: 35px;
     position: absolute;
     z-index: 1;
 `;

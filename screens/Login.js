@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseConfig';
+import MyTextInput from '../components/MyTextInput';
 
 
 // icons
@@ -23,14 +24,17 @@ const Login = ({navigation}) =>{
     const handleLogin = async () => {
         try{
             await signInWithEmailAndPassword(auth, email, password);
-            navigation.navigate('Home');
         }catch(error){
             setError(error.message);
         }
     };
 
+    if(error){
+        console.log(error);
+    }
+
     return(
-        <KeyboardAwareScrollView style={{flex: 1}}>
+        <KeyboardAwareScrollView style={{flex: 1, backgroundColor: 'red'}}>
             <StyledContainer>
                 <StatusBar style="dark"/>
                 <InnerContainer>
@@ -66,7 +70,7 @@ const Login = ({navigation}) =>{
                             <ButtonText>Login</ButtonText>
                         </StyledButton>
                         {/* <Line/> */}
-                        <MsgBox style={{margin: 15}}>- Or sign in with -</MsgBox>
+                        {/* <MsgBox style={{margin: 15}}>- Or sign in with -</MsgBox>
 
                         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <SmallButton>
@@ -78,7 +82,7 @@ const Login = ({navigation}) =>{
                             <SmallButton>
                                 <AntDesign name="twitter" size={30} color={primary} />
                             </SmallButton>
-                        </View>
+                        </View> */}
                         
                         <MsgBox style={{marginTop: 125}}>Don't have an account?</MsgBox>
                         <TouchableOpacity>
@@ -92,23 +96,5 @@ const Login = ({navigation}) =>{
         </KeyboardAwareScrollView>
     );
 }
-  
-
-const MyTextInput = ({label, icon, hidePassword, setHidePassword, isPassword, ...props}) => {
-    return(
-        <View>
-            <LeftIcon>
-                <Octicons name={icon} size={30} color={primary}/>
-            </LeftIcon>
-            {/* <StyledInputLabel>{label}</StyledInputLabel> */}
-            <StyledTextInput {...props}/>
-            {isPassword &&  (
-                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                    <Ionicons name={hidePassword ? 'eye' : 'eye-off'} size={30} color={primary}/>
-                </RightIcon>
-            )}
-        </View>
-    );
-};
 
 export default Login;
